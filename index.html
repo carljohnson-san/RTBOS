@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>RTB OS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root{
+  --accent:#ffd900;
+  --bg:#000;
+  --panel:#0b0b0b;
+  --glow:0 0 14px var(--accent);
+}
+
+*{box-sizing:border-box;font-family:Consolas,monospace}
+
+body{
+  margin:0;
+  background:var(--bg);
+  color:white;
+  overflow:hidden;
+}
+
+/* CRT */
+#crt::after{
+  content:"";
+  position:fixed;
+  inset:0;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    rgba(255,255,255,.03),
+    rgba(255,255,255,.03) 1px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+/* BOOT */
+#boot{
+  position:fixed;inset:0;
+  background:black;
+  color:var(--accent);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:24px;
+  z-index:9999;
+}
+
+/* DESKTOP */
+#desktop{
+  padding:20px;
+  display:grid;
+  grid-template-columns:repeat(auto-fill,80px);
+  gap:20px;
+}
+
+.app{text-align:center;cursor:pointer}
+.app div{
+  height:64px;
+  border:2px solid var(--accent);
+  background:#090909;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  box-shadow:var(--glow);
+}
+.app span{font-size:12px}
+
+/* TASKBAR */
+#taskbar{
+  position:fixed;bottom:0;left:0;right:0;
+  height:48px;
+  background:#050505;
+  border-top:2px solid var(--accent);
+  display:flex;
+  align-items:center;
+  padding:0 10px;
+}
+#startBtn{
+  background:#111;
+  color:var(--accent);
+  border:2px solid var(--accent);
+  padding:6px 14px;
+  cursor:pointer;
+  box-shadow:var(--glow);
+}
+
+/* START MENU */
+#startMenu{
+  position:fixed;
+  bottom:48px;left:10px;
+  width:220px;
+  background:#0a0a0a;
+  border:2px solid var(--accent);
+  display:none;
+}
+.start-item{
+  padding:10px;
+  border-bottom:1px solid #222;
+  cursor:pointer;
+}
+.start-item:hover{background:#111}
+
+/* WINDOW */
+.window{
+  position:absolute;
+  top:80px;left:80px;
+  width:min(90vw,420px);
+  background:#0c0c0c;
+  border:2px solid var(--accent);
+  box-shadow:var(--glow);
+  display:none;
+}
+.header{
+  background:black;
+  color:var(--accent);
+  padding:8px;
+  cursor:move;
+  display:flex;
+  justify-content:space-between;
+}
+.close{color:red;cursor:pointer}
+.content{padding:12px}
+a{color:var(--accent)}
+.code{
+  background:black;
+  border:1px solid var(--accent);
+  padding:8px;
+  user-select:all;
+  white-space:pre-wrap;
+}
+
+/* TERMINAL */
+#termOut{
+  height:160px;
+  overflow:auto;
+  border:1px solid var(--accent);
+  background:black;
+  padding:6px;
+}
+input{
+  width:100%;
+  background:black;
+  color:var(--accent);
+  border:1px solid var(--accent);
+  padding:6px;
+}
+
+/* GLITCH */
+.glitch{
+  animation:shake .1s infinite,invert .3s infinite;
+}
+@keyframes shake{
+  0%{transform:translate(0,0)}
+  25%{transform:translate(2px,-2px)}
+  50%{transform:translate(-2px,2px)}
+}
+@keyframes invert{
+  50%{filter:invert(1)}
+}
+
+/* BSOD */
+#bsod{
+  position:fixed;inset:0;
+  background:#001a33;
+  color:#9fdcff;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+  font-size:18px;
+  z-index:99999;
+}
+</style>
+</head>
+
+<body id="crt">
+
+<div id="boot">RTB OS BOOTING...</div>
+
+<div id="bsod">
+😵 RTB OS HAS CRASHED<br><br>
+A problem has been detected and chaos has been unleashed.<br><br>
+Rebooting...
+</div>
+
+<div id="desktop">
+<div class="app" onclick="openWin('site')"><div>🌐</div><span>Site</span></div>
+<div class="app" onclick="openWin('partners')"><div>🤝</div><span>Partners</span></div>
+<div class="app" onclick="openWin('truenight')"><div>🌙</div><span>True Night</span></div>
+<div class="app" onclick="openWin('videos')"><div>📺</div><span>Videos</span></div>
+<div class="app" onclick="openWin('join')"><div>💬</div><span>Join RTB</span></div>
+<div class="app" onclick="openWin('chaos')"><div>⚠</div><span>Chaos Net</span></div>
+<div class="app" onclick="openWin('terminal')"><div>⌨</div><span>Terminal</span></div>
+<div class="app" onclick="openWin('about')"><div>ℹ</div><span>About</span></div>
+</div>
+
+<!-- WINDOWS -->
+
+<div class="window" id="site"><div class="header">Site<span class="close" onclick="closeWin('site')">X</span></div><div class="content"><a href="https://carljohnson-san.github.io/RTB/" target="_blank">Open RTB</a></div></div>
+
+<div class="window" id="partners"><div class="header">Partners<span class="close" onclick="closeWin('partners')">X</span></div><div class="content">
+<a href="https://discord.gg/u7tdVp4H2R" target="_blank">Void Hub</a><br><br>
+<a href="https://discord.gg/SAvxqguzzs" target="_blank">Hagey's Trolling Union</a>
+</div></div>
+
+<div class="window" id="truenight"><div class="header">True Night<span class="close" onclick="closeWin('truenight')">X</span></div><div class="content">
+<a href="https://carljohnson-san.github.io/True-Night/" target="_blank">Launch Game</a>
+</div></div>
+
+<div class="window" id="videos"><div class="header">Videos<span class="close" onclick="closeWin('videos')">X</span></div><div class="content">
+<a href="https://www.youtube.com/@RobloxTrollingBase" target="_blank">RTB YouTube</a>
+</div></div>
+
+<div class="window" id="join"><div class="header">Join RTB<span class="close" onclick="closeWin('join')">X</span></div><div class="content">
+<a href="https://discord.gg/aGFqhWfWTj" target="_blank">Join Discord</a>
+</div></div>
+
+<div class="window" id="chaos"><div class="header">Chaos Network<span class="close" onclick="closeWin('chaos')">X</span></div><div class="content">
+<b>Universal TF</b>
+<div class="code">loadstring(game:HttpGet("https://raw.githubusercontent.com/carlcatnature/universaltf/refs/heads/main/cj"))()</div>
+<b>Kohau Radar</b>
+<div class="code">loadstring(game:HttpGet("https://raw.githubusercontent.com/carljohnson-san/kohauscript/refs/heads/main/NEW%20KOHAU%20RADAR"))()</div>
+</div></div>
+
+<div class="window" id="terminal"><div class="header">RTB Terminal<span class="close" onclick="closeWin('terminal')">X</span></div><div class="content">
+<div id="termOut">RTB OS v3.0<br>type help</div>
+<input onkeydown="cmd(event)">
+</div></div>
+
+<div class="window" id="about"><div class="header">About<span class="close" onclick="closeWin('about')">X</span></div><div class="content">
+Made by <b>CatNature</b>, the creator of RTB.<br><br>
+Our goal is <b>chaos</b>.
+</div></div>
+
+<div id="taskbar">
+<button id="startBtn" onclick="toggleStart()">START</button>
+</div>
+
+<div id="startMenu">
+<div class="start-item" onclick="openWin('terminal')">Terminal</div>
+<div class="start-item" onclick="openWin('chaos')">Chaos Network</div>
+<div class="start-item" onclick="panic()">Blue Screen</div>
+<div class="start-item" onclick="location.reload()">Restart</div>
+</div>
+
+<script>
+setTimeout(()=>boot.style.display="none",2500);
+
+/* Window */
+function openWin(id){let w=document.getElementById(id);w.style.display="block";w.style.zIndex=Date.now()}
+function closeWin(id){document.getElementById(id).style.display="none"}
+function toggleStart(){startMenu.style.display=startMenu.style.display==="block"?"none":"block"}
+
+/* Terminal */
+function cmd(e){
+ if(e.key==="Enter"){
+  let o=termOut,c=e.target.value;
+  o.innerHTML+="<br>> "+c;
+  if(c==="help") o.innerHTML+="<br>help, ls, open [app], scan, battle, execute, glitch on/off, panic, reboot, whoami, theme";
+  if(c==="ls") o.innerHTML+="<br>site partners truenight videos join chaos terminal about";
+  if(c.startsWith("open")) openWin(c.split(" ")[1]);
+  if(c==="scan") o.innerHTML+="<br>Scanning network... threats found: 3";
+  if(c==="battle") o.innerHTML+="<br>Antivirus engaged... malware destroyed.";
+  if(c==="execute") o.innerHTML+="<br>Script executed successfully.";
+  if(c==="glitch on") document.body.classList.add("glitch");
+  if(c==="glitch off") document.body.classList.remove("glitch");
+  if(c==="panic") panic();
+  if(c==="reboot") location.reload();
+  if(c==="whoami") o.innerHTML+="<br>catnature@rtb";
+  if(c.startsWith("theme")){
+    let t=c.split(" ")[1];
+    let m={yellow:"#ffd900",red:"#ff3333",green:"#00ff88",blue:"#4db8ff"};
+    document.documentElement.style.setProperty("--accent",m[t]||"#ffd900");
+  }
+  e.target.value="";o.scrollTop=o.scrollHeight;
+ }
+}
+
+/* Drag */
+document.querySelectorAll(".window").forEach(w=>{
+ let h=w.querySelector(".header");
+ h.onmousedown=e=>{
+  let ox=e.clientX-w.offsetLeft,oy=e.clientY-w.offsetTop;
+  document.onmousemove=m=>{
+    w.style.left=m.clientX-ox+"px";
+    w.style.top=m.clientY-oy+"px";
+  };
+  document.onmouseup=()=>document.onmousemove=null;
+ };
+});
+
+/* BSOD */
+function panic(){
+ bsod.style.display="flex";
+ setTimeout(()=>location.reload(),3500);
+}
+</script>
+
+</body>
+</html>

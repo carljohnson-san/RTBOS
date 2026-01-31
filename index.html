@@ -7,9 +7,8 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
-        /* --- CORE VISUALS --- */
         :root {
-            --accent: #ffd900; /* Default RTB Gold */
+            --accent: #ffd900;
             --glass: rgba(18, 18, 20, 0.92);
             --border: rgba(255, 255, 255, 0.15);
             --shadow-win: 0 20px 60px rgba(0,0,0,0.7);
@@ -23,7 +22,6 @@
             transition: background 0.5s;
         }
 
-        /* --- BOOT SCREEN --- */
         #boot-screen {
             position: fixed; inset: 0; background: #000; z-index: 99999;
             display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -37,7 +35,6 @@
         @keyframes loadOS { 0% { width: 0%; } 100% { width: 100%; } }
         @keyframes pulse { 0%, 100% { text-shadow: 0 0 20px var(--accent); } 50% { text-shadow: 0 0 5px var(--accent); } }
 
-        /* --- TOP BAR --- */
         #topBar {
             position: fixed; top: 0; width: 100%; height: 32px;
             background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(10px);
@@ -49,7 +46,6 @@
         .sys-btn { margin-left: 10px; cursor: pointer; transition: 0.2s; color: #ccc; }
         .sys-btn:hover { color: white; text-shadow: 0 0 5px white; }
 
-        /* --- DESKTOP --- */
         #desktop {
             padding: 50px 40px; display: grid; 
             grid-template-columns: repeat(auto-fill, 90px);
@@ -63,8 +59,7 @@
         .app-icon:hover { background: rgba(255, 255, 255, 0.1); color: white; transform: translateY(-2px); }
         .app-icon i { font-size: 36px; margin-bottom: 8px; filter: drop-shadow(0 4px 6px rgba(0,0,0,0.8)); }
         .app-icon span { font-size: 11px; text-shadow: 0 2px 4px black; text-align: center; }
-
-        /* --- WINDOW SYSTEM --- */
+        
         .window {
             position: absolute; background: var(--glass); backdrop-filter: blur(30px);
             border: 1px solid var(--border); border-radius: 8px;
@@ -88,33 +83,26 @@
         .win-title { font-size: 12px; font-weight: 700; color: #ccc; pointer-events: none; }
         .win-body { flex: 1; overflow: auto; position: relative; color: #eee; }
 
-        /* --- APP SPECIFIC --- */
-        /* Common Iframe */
         iframe { width: 100%; height: 100%; border: none; background: #fff; }
 
-        /* Browser */
         .browser-toolbar { background: #111; padding: 8px; display: flex; gap: 8px; align-items: center; border-bottom: 1px solid #333; }
         .url-bar { flex: 1; background: #222; border: 1px solid #333; color: #ccc; padding: 5px 12px; border-radius: 15px; font-size: 12px; outline: none; font-family: monospace; }
         
-        /* Media */
         .media-player-ui { display: flex; flex-direction: column; height: 100%; background: #050505; }
         .album-art { flex: 1; display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
         .album-art i { font-size: 100px; color: #222; z-index: 1; }
         .media-controls { height: 100px; background: #111; padding: 15px; border-top: 1px solid #333; display: flex; flex-direction: column; justify-content: space-between; }
         
-        /* Video */
         .video-container { width: 100%; height: 100%; background: black; display: flex; flex-direction: column; }
         .video-wrapper { flex: 1; position: relative; display:flex; align-items:center; justify-content:center; }
         video { width: 100%; height: 100%; outline: none; display: block; }
         .yt-frame { width: 100%; height: 100%; border: none; display: none; background: black; }
         .video-toolbar { background: #111; padding: 10px; display: flex; gap: 10px; border-top: 1px solid #333; }
 
-        /* Settings */
         .color-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; padding: 20px; }
         .color-swatch { height: 50px; border-radius: 8px; cursor: pointer; border: 2px solid transparent; }
         .color-swatch:hover { transform: scale(1.1); }
 
-        /* Files */
         .file-sidebar-item { padding: 8px; cursor: pointer; font-size: 13px; color: #aaa; border-radius: 4px; }
         .file-sidebar-item:hover { background: rgba(255,255,255,0.05); color: white; }
         .file-sidebar-item.active { background: var(--accent); color: black; font-weight: bold; }
@@ -124,10 +112,8 @@
         .file-item i { font-size: 32px; margin-bottom: 8px; display: block; }
         .file-item span { font-size: 11px; line-height: 1.2; }
 
-        /* Partners */
         .partner-card { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 15px; margin-bottom: 10px; border-radius: 6px; display: flex; align-items: center; gap: 15px; }
         
-        /* --- DOCK --- */
         #dock-container { position: fixed; bottom: 20px; width: 100%; display: flex; justify-content: center; z-index: 11000; pointer-events: none; }
         #dock {
             background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(20px);
@@ -413,7 +399,6 @@
     </div>
 
     <script>
-        // --- BOOT ---
         window.onload = function() {
             const text = document.getElementById('boot-text');
             setTimeout(() => text.innerText = "Mounting 2026 Security Protocols...", 800);
@@ -425,7 +410,6 @@
             setInterval(() => document.getElementById('clock').innerText = new Date().toLocaleTimeString(), 1000);
         }
 
-        // --- SYSTEM CORE ---
         let zIndex = 100;
         function openApp(id) {
             let win = document.getElementById('win-' + id);
@@ -453,13 +437,11 @@
             window.close(); 
         }
 
-        // --- THEME ENGINE ---
         function setTheme(color) {
             document.documentElement.style.setProperty('--accent', color);
             document.documentElement.style.setProperty('--border', color + '44');
         }
 
-        // --- DRAGGING ---
         function startDrag(e, winId) {
             let win = document.getElementById(winId);
             bringToFront(win);
@@ -477,34 +459,27 @@
             };
         }
 
-        // --- FILES APP ---
         function navFiles(view) {
-            // Sidebar visual toggle
             document.querySelectorAll('.file-sidebar-item').forEach(el => el.classList.remove('active'));
             document.getElementById('nav-' + view).classList.add('active');
             
-            // Content toggle
             document.getElementById('view-home').style.display = 'none';
             document.getElementById('view-videos').style.display = 'none';
             document.getElementById('view-' + view).style.display = 'grid';
         }
 
         function openYoutubeFile(id) {
-            // This function creates a seamless embed experience in Vision Player
             openApp('video');
             const video = document.getElementById('mainVideo');
             const iframe = document.getElementById('ytFrame');
             
-            // Hide local video, show iframe
             video.style.display = 'none';
             video.pause();
             
             iframe.style.display = 'block';
-            // Embed URL with autoplay
             iframe.src = "https://www.youtube.com/embed/" + id + "?autoplay=1&rel=0";
         }
 
-        // --- MEDIA ---
         const audio = document.getElementById('mainAudio');
         function handleFileSelect(input, type) {
             const file = input.files[0];
@@ -515,7 +490,6 @@
                 document.getElementById('trackName').innerText = file.name;
                 audio.play();
             } else if (type === 'video') {
-                // Switch back to local video mode
                 document.getElementById('ytFrame').style.display = 'none';
                 document.getElementById('ytFrame').src = "";
                 const vid = document.getElementById('mainVideo');
@@ -526,12 +500,10 @@
         }
         function togglePlay() { audio.paused ? audio.play() : audio.pause(); }
 
-        // --- VISION ---
         function loadVideoUrl() {
             let url = prompt("Enter URL (YouTube or Direct MP4):");
             if(!url) return;
             if(url.includes("youtube.com") || url.includes("youtu.be")) {
-                // Extract ID logic
                 let id = "";
                 if(url.includes("v=")) id = url.split("v=")[1].split("&")[0];
                 else if(url.includes("youtu.be/")) id = url.split("youtu.be/")[1];
@@ -545,7 +517,6 @@
             }
         }
 
-        // --- BROWSER ---
         function handleBrowserNav(e) { if(e.key === 'Enter') navigateToUrl(); }
         function navigateToUrl() {
             let url = document.getElementById('browserUrl').value;
@@ -553,7 +524,6 @@
             document.getElementById('webFrame').src = url;
         }
 
-        // --- TERMINAL ---
         function termCmd(e) {
             if(e.key === 'Enter') {
                 let v = e.target.value.trim();
@@ -574,7 +544,6 @@
             }
         }
         
-        // Bring to front logic
         document.querySelectorAll('.window').forEach(w => w.addEventListener('mousedown', () => bringToFront(w)));
     </script>
 </body>
